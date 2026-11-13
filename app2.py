@@ -2053,26 +2053,28 @@ elif st.session_state['page'] == 'analytics':
                 st.write(f"### 🎲 Monte Carlo Risk Audit ({time_horizon_days}-Day Horizon)")
                 
                 # 1. Parameter setup for GBM
-                num_sims = 10000
-                n_years = time_horizon_days / 252.0  # Convert holding horizon days to annual fraction
-                mean_ret = portfolio_daily_returns.mean()
-                std_ret = portfolio_daily_returns.std()
+                num_sims = 1000
+                # n_years = time_horizon_days / 252.0  # Convert holding horizon days to annual fraction
+                # mean_ret = portfolio_daily_returns.mean()
+                # std_ret = portfolio_daily_returns.std()
                 
-                # Annualize daily parameters for Geometric Brownian Motion
-                mu_annual = mean_ret * 252.0
-                sigma_annual = std_ret * (252.0 ** 0.5)
+                # # Annualize daily parameters for Geometric Brownian Motion
+                # mu_annual = mean_ret * 252.0
+                # sigma_annual = std_ret * (252.0 ** 0.5)
                 
-                # 2. Call your custom quant_risk_kit GBM simulation function
-                # Generates 10,000 scenario price paths starting at initial_capital
-                gbm_paths = erk.gbm(
-                    n_years=n_years,
-                    n_scenarios=num_sims,
-                    mu=mu_annual,
-                    sigma=sigma_annual,
-                    steps_per_year=252,
-                    s_0=initial_capital,
-                    prices=True
-                )
+                # # 2. Call your custom quant_risk_kit GBM simulation function
+                # # Generates 10,000 scenario price paths starting at initial_capital
+                # gbm_paths = erk.gbm(
+                #     n_years=n_years,
+                #     n_scenarios=num_sims,
+                #     mu=mu_annual,
+                #     sigma=sigma_annual,
+                #     steps_per_year=252,
+                #     s_0=initial_capital,
+                #     prices=True
+                # )
+                sim_prices = erk.cholesky_returns(price_data, 1000, True)
+                gbm_paths = sim_prices.dot(weights)
                 
                 # 3. Extract ending values from the final step of all 10,000 simulated paths
                 simulated_ending_values = gbm_paths.iloc[-1].values
