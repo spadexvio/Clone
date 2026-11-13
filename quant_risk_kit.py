@@ -1186,8 +1186,9 @@ def cholesky_returns(prices,num_steps=252,return_prices=True):
     for t in range(num_steps):
         # Geometric Brownian motion formula: S_{t} = S_{t-1} * exp(drift + diffusion)
         # epsilon[t] contains the correlated random shocks for the 3 assets at step t
-        epsilon[t]= L.dot(z.iloc[t])
-        diffusion = sigma.values * np.sqrt(dt) * epsilon[t]
+        epsilon = pd.DataFrame(0, index=covmat.index, columns= ['My_Column'])
+        epsilon= L.dot(z.iloc[t])
+        diffusion = sigma.values * np.sqrt(dt) * epsilon
         
         if t == 0:
             simulated_prices[t] = S_t * np.exp(drift + diffusion)
