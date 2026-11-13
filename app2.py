@@ -243,7 +243,7 @@ if st.session_state['page'] == 'landing':
         <p class="hero-description">
             <b>WIRATOR</b> is an open-access quantitative risk engine for cross-border and emerging markets. 
             It converts portfolio holdings into audit-ready <b>Value at Risk (VaR)</b>, <b>Conditional VaR (CVaR)</b>, 
-            <b>Sharpe Style Factor Attribution</b>, and <b>10,000-Path Monte Carlo Stress Simulations</b> 
+            <b>Sharpe Style Factor Attribution</b>, and <b>10,000-Path  Carlo Stress Simulations</b> 
             tailored to global indices and native currencies.
         </p>
     </div>
@@ -2030,7 +2030,7 @@ elif st.session_state['page'] == 'analytics':
                 fig_weights_bytes = pio.to_image(fig_weights, format='png', width=700, height=450)
                 fig_risk_bytes = pio.to_image(fig_risk, format='png', width=700, height=450)
 
-                # # --- MONTE CARLO RISK STRESS RESULTS (METRICS ONLY) ---
+                # # ---  CARLO RISK STRESS RESULTS (METRICS ONLY) ---
                 # st.markdown("---")
                 # st.write(f"### 🎲 Monte Carlo Risk Audit ({time_horizon_days}-Day Horizon)")
 
@@ -2077,7 +2077,7 @@ elif st.session_state['page'] == 'analytics':
                 def cholesky_returns(prices,num_steps=252,return_prices=True):
                     returns = prices.pct_change().dropna()
                     covmat=returns.cov()
-                    L_matrix = np.linalg.cholesky(covmat.values)
+                    L_matrix = np.linalg.cholesky(covmat)
                     L = pd.DataFrame(L_matrix, index=covmat.index, columns=covmat.columns)
                     num_assets = len(covmat.columns)  # 3 assets (GS, JPM, MS)
                     
