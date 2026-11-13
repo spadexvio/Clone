@@ -2050,7 +2050,7 @@ elif st.session_state['page'] == 'analytics':
 
                 # --- MONTE CARLO RISK STRESS RESULTS (USING QUANT_RISK_KIT GBM) ---
                 st.markdown("---")
-                st.write(f"### 🎲 Monte Carlo Risk Audit ({time_horizon_days}-Day Horizon)")
+                st.write(f"### 🎲 Monte Carlo Risk Audit (1-Day Horizon)")
                 
                 # 1. Parameter setup for GBM
                 num_sims = 1000
@@ -2081,27 +2081,26 @@ elif st.session_state['page'] == 'analytics':
                 
                 # 3. Extract ending values from the final step of all 10,000 simulated paths
                 #simulated_ending_values = gbm_paths.iloc[-1]
-                simulated_ending_return=portfolio_multipliers.iloc[time_horizon_days - 1]+1
                 
                 # 4. Compute Risk Metrics
-                mc_var_95 = np.percentile(gbm_paths, (1 - confidence_level) * 100) * np.sqrt(time_horizon_days)
-                max_expected_loss = simulated_ending_return*initial_capital - np.abs(mc_var_95)
+                mc_var_95 = np.percentile(gbm_paths, (1 - confidence_level) * 100) 
+                max_expected_loss = initial_capital - np.abs(mc_var_95)
                 prob_loss_10pct = (np.sum(np.abs(gbm_paths) < (initial_capital * 0.90)) / num_sims) * 100.0
 
                 mc_col1, mc_col2, mc_col3 = st.columns(3)
                 
                 mc_col1.metric(
-                    label=f"Max Expected Loss ({time_horizon_days} Days)", 
+                    label=f"Max Expected Loss (1-Day)", 
                     value=f"{currency} {max_expected_loss:,.2f}"
                 )
                 
                 mc_col2.metric(
-                    label="Projected Portfolio Tail Value", 
+                    label="Projected Portfolio Tail Value(1-Day)", 
                     value=f"{currency} {mc_var_95:,.2f}"
                 )
                 
                 mc_col3.metric(
-                    label="Probability of >10% Capital Drawdown", 
+                    label="Probability of >10% Capital Drawdown(1-Day)", 
                     value=f"{prob_loss_10pct:.1f}%"
                 )
 
