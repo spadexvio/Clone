@@ -1175,7 +1175,7 @@ def cholesky_returns(prices,num_steps=252,return_prices=True):
     
     # 3. Vectorized GBM simulation across all columns at once
     # Initialize a results array with the starting prices (the last actual price)
-    S_t = prices.iloc[-1] # Starting prices shape: (3,)
+    S_t = prices.iloc[-1].values # Starting prices shape: (3,)
     simulated_prices = np.zeros((num_steps, len(prices.columns)))
     
     # Drift term: (mu - 0.5 * sigma^2) * dt
