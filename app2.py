@@ -2126,7 +2126,7 @@ elif st.session_state['page'] == 'analytics':
                 gbm_paths = sim_prices.dot(weights)
                 
                 # 3. Extract ending values from the final step of all 10,000 simulated paths
-                simulated_ending_values = gbm_paths.iloc[-1].values
+                simulated_ending_values = gbm_paths.iloc[-1]
                 
                 # 4. Compute Risk Metrics
                 mc_var_95 = np.percentile(simulated_ending_values, (1 - confidence_level) * 100)
