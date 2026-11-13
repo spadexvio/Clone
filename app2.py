@@ -2076,7 +2076,7 @@ elif st.session_state['page'] == 'analytics':
 
                 
                 sim_rets = erk.cholesky_returns(price_data, 1000, False)
-                gbm_paths = (sim_rets.dot(weights))*initial_capital
+                gbm_paths = (sim_rets.dot(weights))*initial_capital*100
                 
                 # 3. Extract ending values from the final step of all 10,000 simulated paths
                 #simulated_ending_values = gbm_paths.iloc[-1]
